@@ -1,0 +1,54 @@
+body {
+    font: 25px "Avenir", Helvetica, Arial, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.fade-out {
+    -webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+}
+
+.loader {
+    width: 30%;
+    height: 20px;
+    border-radius: 9999px;
+    background: #474747;
+    overflow: hidden;
+}
+
+.loader__bar {
+    width: 0%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 9999px;
+}
