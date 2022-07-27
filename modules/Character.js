@@ -14,32 +14,28 @@ export default class Character {
     /** @type {THREE.Vector3} */
     #targetPosition = new THREE.Vector3();
     
-    constructor(name, color, position) {
+    constructor(name, model, color, position) {
         this.name = name;
         this.color = color;
         
-        // this.model = model.clone();
-        this.model = new THREE.Object3D();
+        this.model = model.clone();
         this.#setupModel(position);
 
         this.#targetPosition.copy(this.model.position);
     };
 
     #setupModel(position) {
-        // this.model.position.copy(position);
-        // this.model.scale.set(1.3, 1.3, 1.3);
-        // this.model.name = this.name;
+        this.model.position.copy(position);
+        this.model.scale.set(1.3, 1.3, 1.3);
+        this.model.name = this.name;
 
         const identifier = new THREE.Mesh(
             new THREE.SphereGeometry(1),
             new THREE.MeshPhongMaterial({ color: this.color })
         );
         identifier.name = 'Identifier';
-        // identifier.position.add(new THREE.Vector3(0, -1, 10));
-        // identifier.position.copy(position);
+        identifier.position.add(new THREE.Vector3(0, -1, 10));
         this.model.add(identifier);
-        this.model.position.copy(position);
-        this.model.position.y += 1;
     };
 
     #resetRotation() {
