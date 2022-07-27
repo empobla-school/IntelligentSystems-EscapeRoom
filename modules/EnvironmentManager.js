@@ -14,7 +14,7 @@ export default class EnvironmentManager {
     assets = {};
 
     constructor(assets) {
-        assets.forEach(({ name, asset }) => this.assets[name] = asset);
+        // assets.forEach(({ name, asset }) => this.assets[name] = asset);
 
         window.addEventListener('resize', () => this.onWindowResize(), false);
 
