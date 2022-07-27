@@ -5,6 +5,7 @@ import EnvironmentManager from './modules/EnvironmentManager.js';
 import AssetLoader from './modules/AssetLoader.js';
 import Labyrinth from './modules/Labyrinth.js';
 import Character from './modules/Character.js';
+import AStar from './modules/AStar.js';
  
 /** Main method. */
 async function main() {
@@ -22,6 +23,13 @@ async function main() {
     const labyrinth = new Labyrinth();
     environment.scene.add(labyrinth.labyrinth);
 
+    // Pathfinding
+    const start = labyrinth.floors.getObjectByName('Start');
+    const end = labyrinth.floors.children[50];
+    const aStar = new AStar(labyrinth.virtualGrid);
+    const path = aStar.findPath(start, end);
+    labyrinth.drawPath(path);
+
     // Get a reference to the dummy model
     const dummy = environment.assets.dummy.scene.children[0];
 
@@ -36,7 +44,7 @@ async function main() {
 
     // Character Movement
     prisoner.moveHorizontal(-1);
-    prisoner.moveVertical(1);
+    prisoner.moveVertical(2);
 
     environment.animate();
 };
