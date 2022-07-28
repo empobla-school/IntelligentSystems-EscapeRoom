@@ -1,0 +1,18 @@
+Establecer una forma de juego, por ejemplo que cada 2 o 3 movimientos se pueda seleccionar un movimiento.
+
+Estrategia del policia:
+	- Predecir que posibles caminos puede tomar el ladron (diferentes caminos de donde se encuentre el ladron a la salida)
+	- Seleccionar el "mejor" con una heuristica:
+		- Tratar de llegar a la "mejor" celda, por ejemplo una celda que la mayoria de caminos (del ladron a la salida) pasen por ahi y este alcanzable por el policia en el turno.
+		- Otro ejemplo, bloquear (llegar a una celda que se pueda pasar por el solamente por el) el mas corto o el que tenga mas salidas
+	- Si el ladron esta a la vista
+		- Lanzar un algoritmo de busqueda de la celda del ladron actualmente a la meta y buscar bloquearla
+			- Bloquearla es llegar a la celda antes que el ladron.
+Estrategia del ladron:
+	- Buscar los N mejores caminos (digamos maximo 3 o 4 caminos) para llegar a la salida.
+	- Seleccionar el mejor camino
+		- El camino que no tenga tantas celdas que se puedan bloquear (alternativas)
+		- El camino mas corto
+	- Si el policia esta visible
+		- Buscar caminos que lleguen a la salida sin pasar cerca del policia (redeandolo), tomando como que las celdas cercanas al policia descuentan muchos puntos.
+	
