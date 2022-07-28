@@ -24,27 +24,26 @@ async function main() {
     environment.scene.add(labyrinth.labyrinth);
 
     // Pathfinding
-    const start = labyrinth.floors.getObjectByName('Start');
-    const end = labyrinth.floors.children[50];
-    const aStar = new AStar(labyrinth.virtualGrid);
-    const path = aStar.findPath(start, end);
-    labyrinth.drawPath(path);
+    // const start = labyrinth.floors.getObjectByName('Start');
+    // const end = labyrinth.floors.children[50];
+    // const aStar = new AStar(labyrinth.virtualGrid);
+    // const path = aStar.findPath(start, end);
+    // labyrinth.drawPath(path);
 
     // Get a reference to the dummy model
     const dummy = environment.assets.dummy.scene.children[0];
 
     // Create characters
     const prisonerPosition = new THREE.Vector3().copy(labyrinth.floors.getObjectByName('Start').position).add(new THREE.Vector3(0, 5, -1));
-    const prisoner = new Character('Prisoner', dummy, 0x00FF00, prisonerPosition);
+    const prisoner = new Character('Prisoner', dummy, 0x00FF00, prisonerPosition, labyrinth.labyrinth, labyrinth.virtualGrid);
     environment.scene.add(prisoner.model);
     
     const policePosition = new THREE.Vector3().copy(labyrinth.floors.getObjectByName('End').position).add(new THREE.Vector3(0, 5, -1));
-    const police = new Character('Police', dummy, 0xFF0000, policePosition);
+    const police = new Character('Police', dummy, 0xFF0000, policePosition, labyrinth.labyrinth, labyrinth.virtualGrid);
     environment.scene.add(police.model);
 
     // Character Movement
-    prisoner.moveHorizontal(-1);
-    prisoner.moveVertical(2);
+    prisoner.moveHorizontal(-13);
 
     environment.animate();
 };

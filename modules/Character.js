@@ -1,6 +1,7 @@
 "use strict";
 
 import * as THREE from '../libs/three.js/three.module.js';
+import VirtualGrid from './VirtualGrid.js';
 
 export default class Character {
     
@@ -10,13 +11,19 @@ export default class Character {
     color;
     /** @type {THREE.Object3D} */
     model;
+    /** @type {THREE.Group} */
+    map;
+    /** @type {VirtualGrid} */
+    virtualGrid;
 
     /** @type {THREE.Vector3} */
     #targetPosition = new THREE.Vector3();
     
-    constructor(name, model, color, position) {
+    constructor(name, model, color, position, map, virtualGrid) {
         this.name = name;
         this.color = color;
+        this.map = map;
+        this.virtualGrid = virtualGrid;
         
         this.model = model.clone();
         this.#setupModel(position);
@@ -44,6 +51,12 @@ export default class Character {
     };
 
     moveHorizontal(units) {
+        // Check if movement is possible
+        const newPosition = new THREE.Vector3(this.model.position.x + units * 10, this.model.position.y, this.model.position.z);
+        const newNode = this.virtualGrid.getNodeFromWorldSpace(newPosition);
+        
+        if (newNode.isWall) return;
+
         this.model.position.x += units * 10;
 
         this.#resetRotation();
@@ -52,6 +65,12 @@ export default class Character {
     };
 
     moveVertical(units) {
+        // Check if movement is possible
+        const newPosition = new THREE.Vector3(this.model.position.x, this.model.position.y, this.model.position.z - units * 10);
+        const newNode = this.virtualGrid.getNodeFromWorldSpace(newPosition);
+        
+        if (newNode.isWall) return;
+
         this.model.position.z -= units * 10;
 
         this.#resetRotation();
