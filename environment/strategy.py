@@ -43,10 +43,10 @@ import numpy as np
 URL_ENVIRONMENT = 'localhost:5001'
 
 class Agent:
-    def __init__(self, x, y, type_agent) -> None:
+    def __init__(self, x, y, is_police = False) -> None:
         self.x = x
         self.y = y
-        self.type_agent = type_agent
+        self.type_agent = "Police" if is_police else "Prisoner"
         self.done = False
     
     def position(self):
@@ -60,7 +60,7 @@ class Agent:
         # Move agent (visually)
         # ...
 
-        response_json = request.get(f'{URL_ENVIRONMENT}/move?move_vertical={move_vertical}&move_horizontal={move_horizontal}')
+        response_json = request.get(f'{URL_ENVIRONMENT}/move?character={self.type_agent}&move_vertical={move_vertical}&move_horizontal={move_horizontal}')
 
         self.x = response_json['x']
         self.y = response_json['y']
@@ -69,14 +69,14 @@ class Environment:
     police: Agent
     thief: Agent
     goal: Tuple
-    max_steps: int
+    max_turns: int
     current_step: int
 
-    def __init__(self, police, thief, goal, max_steps = 200) -> None:
+    def __init__(self, police, thief, goal, max_turns = 200) -> None:
         self.police = police
         self.thief = thief
         self.goal = goal
-        self.max_steps = max_steps
+        self.max_turns = max_turns
         self.current_step = 0
         
     def reset(self):
@@ -114,7 +114,10 @@ class Environment:
         thief_reach_goal = self.thief_reach_goal()
 
         observations = (self.police, self.thief)
-        done = thief_police_same_position or thief_reach_goal
+
+        self.max_turns -= 1
+
+        done = thief_police_same_position or thief_reach_goal or self.max_turns <= 0
 
         if thief_police_same_position:
             reward = -100
@@ -131,7 +134,9 @@ class Environment:
         thief_reach_goal = self.thief_reach_goal()
 
         observations = (self.police, self.thief)
-        done = thief_police_same_position or thief_reach_goal
+        
+        self.max_turns -= 1
+        done = thief_police_same_position or thief_reach_goal or self.max_turns <= 0
 
         if thief_police_same_position:
             reward = 100
